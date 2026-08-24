@@ -24,16 +24,28 @@ import { Comment } from './entities/comment.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: parseInt(config.get('DB_PORT') || '5432', 10),
-        username: config.get('DB_USER'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_NAME'),
-        entities: [User, Project, Task, BoardColumn, TimeEntry, Comment],
-        synchronize: true, // apenas para desenvolvimento — trocar por migrations em produção
-      }),
+      useFactory: (config: ConfigService) => {
+        // Provedores como Railway/Render expõem a conexão do Postgres como uma
+        // única DATABASE_URL; localmente usamos as variáveis DB_* separadas.
+        const databaseUrl = config.get<string>('DATABASE_URL');
+        const ssl = config.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false;
+        const connection = databaseUrl
+          ? { url: databaseUrl }
+          : {
+              host: config.get<string>('DB_HOST'),
+              port: parseInt(config.get<string>('DB_PORT') || '5432', 10),
+              username: config.get<string>('DB_USER'),
+              password: config.get<string>('DB_PASSWORD'),
+              database: config.get<string>('DB_NAME'),
+            };
+        return {
+          type: 'postgres' as const,
+          ...connection,
+          ssl,
+          entities: [User, Project, Task, BoardColumn, TimeEntry, Comment],
+          synchronize: true, // apenas para desenvolvimento — trocar por migrations em produção
+        };
+      },
     }),
     UsersModule,
     AuthModule,
