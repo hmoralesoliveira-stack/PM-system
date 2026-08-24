@@ -1,0 +1,72 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useAuth } from '@/lib/auth';
+
+export default function RegisterPage() {
+  const { register } = useAuth();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await register(name, email, password);
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      setError(Array.isArray(msg) ? msg.join(', ') : msg || 'Não foi possível criar a conta.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main className="max-w-sm mx-auto px-6 py-16">
+      <h1 className="text-2xl font-medium mb-6 text-center">Criar conta</h1>
+      <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 flex flex-col gap-3">
+        {error && <p className="text-sm text-red-600">{error}</p>}
+        <input
+          className="border border-border rounded-md px-3 py-1.5 text-sm"
+          placeholder="Nome"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          className="border border-border rounded-md px-3 py-1.5 text-sm"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          className="border border-border rounded-md px-3 py-1.5 text-sm"
+          placeholder="Senha (mín. 6 caracteres)"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          minLength={6}
+          required
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className="px-3 py-1.5 rounded-md bg-accent text-white text-sm disabled:opacity-50"
+        >
+          {loading ? 'Criando...' : 'Criar conta'}
+        </button>
+      </form>
+      <p className="text-sm text-neutral-500 text-center mt-4">
+        Já tem conta?{' '}
+        <Link href="/login" className="text-accent">Entrar</Link>
+      </p>
+    </main>
+  );
+}

@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.next/
+*.tsbuildinfo
+
+# env files with secrets — never commit these
+.env
+.env.local
+
+# uploaded attachments (local dev storage)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# editor/OS
+.DS_Store
+Thumbs.db
+
+*.log

@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pmsystem
+      POSTGRES_PASSWORD: pmsystem
+      POSTGRES_DB: pmsystem
+    ports:
+      - "5434:5432"
+    volumes:
+      - pm_pgdata:/var/lib/postgresql/data
+volumes:
+  pm_pgdata:
