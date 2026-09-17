@@ -1,3 +1,5 @@
+import { mkdirSync } from 'fs';
+import { dirname } from 'path';
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -25,6 +27,21 @@ import { Comment } from './entities/comment.entity';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
+        const entities = [User, Project, Task, BoardColumn, TimeEntry, Comment];
+
+        // Instalação local (desktop): usa um arquivo SQLite, sem precisar de
+        // Postgres/Docker instalado na máquina do usuário.
+        if (config.get<string>('DB_TYPE') === 'sqlite') {
+          const dbPath = config.get<string>('DB_SQLITE_PATH') || './data/pmsystem.sqlite';
+          mkdirSync(dirname(dbPath), { recursive: true });
+          return {
+            type: 'better-sqlite3' as const,
+            database: dbPath,
+            entities,
+            synchronize: true,
+          };
+        }
+
         // Provedores como Railway/Render expõem a conexão do Postgres como uma
         // única DATABASE_URL; localmente usamos as variáveis DB_* separadas.
         const databaseUrl = config.get<string>('DATABASE_URL');
@@ -42,7 +59,7 @@ import { Comment } from './entities/comment.entity';
           type: 'postgres' as const,
           ...connection,
           ssl,
-          entities: [User, Project, Task, BoardColumn, TimeEntry, Comment],
+          entities,
           synchronize: true, // apenas para desenvolvimento — trocar por migrations em produção
         };
       },

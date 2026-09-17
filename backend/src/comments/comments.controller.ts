@@ -19,7 +19,7 @@ export class CommentsController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: process.env.UPLOADS_DIR || './uploads',
         filename: (_req, file, cb) => {
           cb(null, `${randomUUID()}${extname(file.originalname)}`);
         },

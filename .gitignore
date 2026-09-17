@@ -11,6 +11,13 @@ dist/
 backend/uploads/*
 !backend/uploads/.gitkeep
 
+# banco SQLite local (modo desktop)
+backend/data/
+
+# build da instalação desktop
+desktop/resources/
+desktop/dist/
+
 # editor/OS
 .DS_Store
 Thumbs.db

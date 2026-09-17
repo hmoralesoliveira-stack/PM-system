@@ -6,7 +6,17 @@ Sistema de gestão de projetos com kanban, Gantt, apontamento de horas e tarefas
 - Backend: NestJS + TypeORM + PostgreSQL + JWT (Passport) para autenticação
 - Frontend: Next.js (App Router) + Tailwind + @dnd-kit (kanban) + frappe-gantt (Gantt)
 
-## Como rodar
+## Instalação local (desktop, sem navegador)
+
+Além da versão web, o repositório tem uma versão desktop empacotada com
+Electron, que gera um instalador `.exe`/`.msi` para instalar no Windows sem
+depender de servidor, Docker ou Postgres (usa SQLite local). Veja
+[`desktop/README.md`](desktop/README.md) para gerar o instalador (o jeito
+mais simples é rodar o workflow do GitHub Actions em
+`.github/workflows/build-desktop.yml`, que builda em uma máquina Windows e
+disponibiliza o `.exe`/`.msi` para download).
+
+## Como rodar (versão web)
 
 ### 1. Banco de dados
 cd backend

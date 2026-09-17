@@ -1,0 +1,45 @@
+name: Build desktop installer (Windows)
+
+on:
+  workflow_dispatch: {}
+  push:
+    tags:
+      - "desktop-v*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build backend
+        working-directory: backend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3001
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build desktop installer (.exe / .msi)
+        working-directory: desktop
+        run: |
+          npm ci
+          npm run dist
+
+      - name: Upload installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: pm-system-desktop-installers
+          path: |
+            desktop/dist/*.exe
+            desktop/dist/*.msi

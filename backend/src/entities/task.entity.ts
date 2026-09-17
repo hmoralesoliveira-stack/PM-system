@@ -67,7 +67,8 @@ export class Task {
 
   // Marca quando a tarefa entrou na coluna "Em andamento" — usado para lançar horas
   // automaticamente quando ela é movida para "Concluído".
-  @Column({ type: 'timestamp', nullable: true })
+  // SQLite (usado na instalação desktop) não suporta o tipo "timestamp".
+  @Column({ type: process.env.DB_TYPE === 'sqlite' ? 'datetime' : 'timestamp', nullable: true })
   inProgressSince: Date | null;
 
   @CreateDateColumn()
