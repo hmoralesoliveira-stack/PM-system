@@ -69,6 +69,9 @@ function main() {
   if (fs.existsSync(path.join(frontendSrc, 'public'))) {
     copyDir(path.join(frontendSrc, 'public'), path.join(frontendOut, 'public'));
   }
+  // O Next.js precisa achar a pasta "app" em disco mesmo servindo o build
+  // pronto (usa isso para detectar app router x pages router ao iniciar).
+  copyDir(path.join(frontendSrc, 'app'), path.join(frontendOut, 'app'));
   fs.copyFileSync(path.join(frontendSrc, 'package.json'), path.join(frontendOut, 'package.json'));
   fs.copyFileSync(
     path.join(frontendSrc, 'package-lock.json'),
