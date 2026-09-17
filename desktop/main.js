@@ -47,8 +47,8 @@ function waitForHttp(url, timeoutMs) {
 
 // Roda um script Node usando o próprio binário do Electron como runtime,
 // assim o instalador não depende de o usuário ter Node.js instalado.
-function spawnNode(scriptPath, cwd, env) {
-  return spawn(process.execPath, [scriptPath], {
+function spawnNode(scriptPath, args, cwd, env) {
+  return spawn(process.execPath, [scriptPath, ...args], {
     cwd,
     env: { ...process.env, ELECTRON_RUN_AS_NODE: '1', ...env },
     stdio: 'pipe',
@@ -64,7 +64,7 @@ function startBackend() {
     UPLOADS_DIR: path.join(userDataDir, 'uploads'),
     JWT_SECRET: process.env.JWT_SECRET || 'pm-system-local-desktop-secret',
   };
-  backendProcess = spawnNode(path.join(backendDir, 'dist', 'main.js'), backendDir, env);
+  backendProcess = spawnNode(path.join(backendDir, 'dist', 'main.js'), [], backendDir, env);
   backendProcess.stdout.on('data', (d) => backendLog.write(d));
   backendProcess.stderr.on('data', (d) => backendLog.write(d));
   backendProcess.on('error', (err) => backendLog.write(`[spawn error] ${err.stack}\n`));
@@ -80,7 +80,7 @@ function startFrontend() {
     PORT: String(FRONTEND_PORT),
     NEXT_PUBLIC_API_URL: `http://localhost:${BACKEND_PORT}`,
   };
-  frontendProcess = spawnNode(nextBin, frontendDir, env);
+  frontendProcess = spawnNode(nextBin, ['start'], frontendDir, env);
   frontendProcess.stdout.on('data', (d) => frontendLog.write(d));
   frontendProcess.stderr.on('data', (d) => frontendLog.write(d));
   frontendProcess.on('error', (err) => frontendLog.write(`[spawn error] ${err.stack}\n`));
