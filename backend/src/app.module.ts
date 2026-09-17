@@ -29,14 +29,16 @@ import { Comment } from './entities/comment.entity';
       useFactory: (config: ConfigService) => {
         const entities = [User, Project, Task, BoardColumn, TimeEntry, Comment];
 
-        // Instalação local (desktop): usa um arquivo SQLite, sem precisar de
-        // Postgres/Docker instalado na máquina do usuário.
+        // Instalação local (desktop): usa um arquivo SQLite (via sql.js, sem
+        // módulo nativo — evita ter que compilar binário por plataforma),
+        // sem precisar de Postgres/Docker instalado na máquina do usuário.
         if (config.get<string>('DB_TYPE') === 'sqlite') {
           const dbPath = config.get<string>('DB_SQLITE_PATH') || './data/pmsystem.sqlite';
           mkdirSync(dirname(dbPath), { recursive: true });
           return {
-            type: 'better-sqlite3' as const,
-            database: dbPath,
+            type: 'sqljs' as const,
+            location: dbPath,
+            autoSave: true,
             entities,
             synchronize: true,
           };

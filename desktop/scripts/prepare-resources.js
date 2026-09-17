@@ -25,11 +25,15 @@ function copyDir(src, dest) {
   fs.cpSync(src, dest, { recursive: true });
 }
 
+// O único alvo de distribuição é Windows x64 (instalador .exe/.msi), então
+// forçamos os binários nativos opcionais (ex.: @next/swc-*) para essa
+// plataforma mesmo ao empacotar a partir de Linux/macOS.
 function npmInstallProd(dir) {
-  execFileSync('npm', ['ci', '--omit=dev', '--ignore-scripts=false'], {
-    cwd: dir,
-    stdio: 'inherit',
-  });
+  execFileSync(
+    'npm',
+    ['install', '--omit=dev', '--ignore-scripts=false', '--os=win32', '--cpu=x64'],
+    { cwd: dir, stdio: 'inherit' },
+  );
 }
 
 function main() {
@@ -49,6 +53,12 @@ function main() {
     path.join(backendOut, 'package-lock.json'),
   );
   npmInstallProd(backendOut);
+  // Dependência opcional do TypeORM que não usamos (o modo desktop usa o
+  // driver "sqljs"); remove para não embutir um binário nativo sem uso.
+  fs.rmSync(path.join(backendOut, 'node_modules', 'better-sqlite3'), {
+    recursive: true,
+    force: true,
+  });
 
   // --- frontend ---
   assertExists(

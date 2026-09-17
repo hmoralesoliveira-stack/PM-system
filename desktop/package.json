@@ -16,6 +16,7 @@
   "build": {
     "appId": "com.pmsystem.desktop",
     "productName": "PM System",
+    "publish": null,
     "directories": {
       "output": "dist"
     },
