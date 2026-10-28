@@ -68,7 +68,7 @@ const F=[
 ["I-30","Dependência","8–9","RN-19, PV-15 (págs. 8–9)","A carga em lote “existe, mas não é confiável”. Não se sabe se entra no escopo nem qual é o formato.","Definir escopo (V15).","M"],
 ["I-31","Lacuna","—","Nenhum trecho","Não há dados para migração: quanto histórico, formato, qualidade, ocorrências abertas e regra de desligamento do Thanos.","Definir com o Itaú (V29, V30).","A"],
 ];
-f.push(tbl(["ID","Tipo","Pág.","Trecho citado","Problema","Ação sugerida","Sev."],F.map(r=>r),[620,1250,720,3350,4300,3950,948],{size:15,hsize:16,fills:F.map(r=>[null,null,null,null,null,null,SEV[r[6]]])}));
+f.push(tbl(["ID","Tipo","Pág.","Trecho citado","Problema","Ação sugerida","Sev."],F.map(r=>r),[620,1250,720,3350,4300,3950,948],{size:16,hsize:17,fills:F.map(r=>[null,null,null,null,null,null,SEV[r[6]]])}));
 f.push(gap(120));
 f.push(H2("2.1 Resumo dos achados"));
 const cnt=k=>F.filter(r=>r[6]===k).length;
@@ -176,7 +176,7 @@ g.push(H2("Próximos passos"));
 const first=hdrftr("Relatório interno de validação – Thanos","Confidencial | Uso interno Stefanini");
 const sp=(o)=>({page:{size:{width:11906,height:16838,...(o?{orientation:PageOrientation.LANDSCAPE}:{})},margin:o?{top:1100,bottom:900,left:850,right:850}:{top:1300,bottom:1134,left:1134,right:1134}}});
 const doc=new Document({styles,numbering,creator:"N1 IT | Grupo Stefanini",title:"Relatório interno de validação – Thanos",sections:[
- {properties:sp(false),...first,children:c},
+ {properties:{...sp(false),titlePage:true},...first,children:c},
  {properties:sp(true),...hdrftrLand("Relatório interno de validação – Thanos","Confidencial | Uso interno Stefanini"),children:f},
  {properties:sp(false),...first,children:g}]});
 Packer.toBuffer(doc).then(b=>{fs.writeFileSync("/home/user/PM-system/docs/entregas/Relatorio_Interno_Validacao_Thanos.docx",b);console.log("ok")});

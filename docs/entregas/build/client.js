@@ -54,11 +54,11 @@ c.push(tbl(["Hoje","No novo sistema"],[
  ["Pontuação em Excel","Pontuação calculada pelo sistema, com histórico"],
  ["Log técnico, difícil de ler","Histórico em linguagem de negócio: quem, quando, o que mudou e por quê"]],[4300,5338],{firstColBold:true}));
 c.push(gap(100));
-c.push(tbl(["Quadro-resumo",""],[
+c.push(tbl(["Quadro-resumo"],[
  ["Prazo","Conclusão em **29/01/2027**"],
  ["Entrada em produção (proposta)","21/01/2027, com convivência com o Thanos até 29/01/2027"],
  ["Fluxo proposto","24 passos em 4 fases: acesso, registro, tratamento e medição"],
- ["Primeira data para o Itaú","**19/11/2026**: devolver a validação do fluxo e os pontos da seção 13"]],[3000,6638],{firstColBold:true}));
+ ["Primeira data para o Itaú","**19/11/2026**: devolver a validação do fluxo e os pontos da seção 13"]],[3000,6638],{firstColBold:true,hspan:true}));
 c.push(brk());
 // ---------- 2 Glossário
 c.push(H1("2. Glossário"));
@@ -131,7 +131,7 @@ const CMP=[
 ["Controles paralelos","E-mail, Excel e filas próprias.","Tudo no sistema: notificação, pendência e histórico.","Uma única fonte de verdade."],
 ["Dados pessoais de terceiros","Ficam no campo livre de observação.","Campos próprios e protegidos, com o mínimo necessário (V12).","Aderência à LGPD."],
 ["Sustentação","Funções deixaram de funcionar por falta de manutenção.","Sustentação com responsável, canal e prazos acordados (V22).","Sistema mantido e evoluído."]];
-c.push(tbl(["Ponto","Como é hoje (Thanos)","Como será (novo sistema)","Ganho"],CMP,[1700,2700,3338,1900],{firstColBold:true,size:17}));
+c.push(tbl(["Ponto","Como é hoje (Thanos)","Como será (novo sistema)","Ganho"],CMP,[1700,2700,3338,1900],{firstColBold:true,size:16}));
 c.push(brk());
 // ---------- 4 Fluxograma (landscape section after)
 const sec1=c.splice(0); // portrait pages so far
@@ -145,17 +145,17 @@ f.push(caption("Figura 1 – Visão geral: quatro fases do processo."));
 f.push(png(IMG+"legenda.png",600));
 f.push(caption("Figura 2 – Legenda dos símbolos."));
 f.push(brk());
-f.push(png(IMG+"fluxo_a.png",500));
+f.push(png(IMG+"fluxo_a.png",620));
 f.push(caption("Figura 3 – Fase A: acesso ao sistema (passos 1 a 3)."));
 f.push(P("Esta fase é feita uma vez por pessoa. Quem já tem acesso começa a partir da fase B.",{size:19}));
 f.push(brk());
-f.push(png(IMG+"fluxo_b.png",880));
+f.push(png(IMG+"fluxo_b.png",960));
 f.push(caption("Figura 4 – Fase B: registro da ocorrência e notificação ao fornecedor (passos 4 a 13)."));
 f.push(brk());
-f.push(png(IMG+"fluxo_c.png",840));
+f.push(png(IMG+"fluxo_c.png",940));
 f.push(caption("Figura 5 – Fase C: tratamento, correção e encerramento (passos 13 a 18). Os quadros tracejados mostram ações automáticas do sistema."));
 f.push(brk());
-f.push(png(IMG+"fluxo_d.png",900));
+f.push(png(IMG+"fluxo_d.png",980));
 f.push(caption("Figura 6 – Fase D: medição mensal e ação de gestão (passos 19 a 24)."));
 f.push(H3("Quem faz o quê"));
 f.push(tbl(["Responsável","Passos","Papel no processo"],[
@@ -335,7 +335,7 @@ g.push(gap(160));
 g.push(tbl(["Stefanini","Responsável 1","Responsável 2"],[["Nome","",""],["Cargo / área","",""],["Assinatura","",""],["Data","",""]],[2200,3719,3719],{firstColBold:true,size:20}));
 const first=hdrftr("Novo Sistema de Gestão e Medição de Serviços (SLA)","Confidencial | Itaú e Stefanini");
 const doc=new Document({styles,numbering,creator:"N1 IT | Grupo Stefanini",title:"Novo Sistema de Gestão e Medição de Serviços (SLA)",sections:[
- {properties:{page:{size:{width:11906,height:16838},margin:{top:1300,bottom:1134,left:1134,right:1134}}},...first,children:sec1},
+ {properties:{titlePage:true,page:{size:{width:11906,height:16838},margin:{top:1300,bottom:1134,left:1134,right:1134}}},...first,children:sec1},
  {properties:{page:{size:{width:11906,height:16838,orientation:PageOrientation.LANDSCAPE},margin:{top:1100,bottom:900,left:850,right:850}}},...hdrftrLand("Novo Sistema de Gestão e Medição de Serviços (SLA)","Confidencial | Itaú e Stefanini"),children:f},
  {properties:{page:{size:{width:11906,height:16838},margin:{top:1300,bottom:1134,left:1134,right:1134}}},...first,children:g}]});
 Packer.toBuffer(doc).then(b=>{fs.writeFileSync("/home/user/PM-system/docs/entregas/Documentacao_Novo_Sistema_SLA_Itau.docx",b);console.log("ok")});

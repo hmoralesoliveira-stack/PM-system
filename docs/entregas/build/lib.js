@@ -49,13 +49,13 @@ function png(path,widthPx){
 const caption=t=>new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:160},children:[new TextRun({text:t,font:FONT,size:17,italics:true,color:"555555"})]});
 function hdrftr(left,classif){
   return {
-    headers:{default:new Header({children:[new Paragraph({children:[new TextRun({text:"N1 IT | Grupo Stefanini",bold:true,font:FONT,size:17,color:NAVY}),new TextRun({text:"\t"+left,font:FONT,size:17,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:9638}],border:{bottom:{style:BorderStyle.SINGLE,size:6,color:BLUE,space:3}}})]})},
-    footers:{default:new Footer({children:[new Paragraph({children:[new TextRun({text:classif,font:FONT,size:16,color:"666666"}),new TextRun({children:["\tPágina ",PageNumber.CURRENT," de ",PageNumber.TOTAL_PAGES],font:FONT,size:16,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:9638}]})]})}
+    headers:{first:new Header({children:[new Paragraph({children:[]})]}),default:new Header({children:[new Paragraph({children:[new TextRun({text:"N1 IT | Grupo Stefanini",bold:true,font:FONT,size:17,color:NAVY}),new TextRun({text:"\t"+left,font:FONT,size:17,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:9638}],border:{bottom:{style:BorderStyle.SINGLE,size:6,color:BLUE,space:3}}})]})},
+    footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({children:[new TextRun({text:classif,font:FONT,size:16,color:"666666"}),new TextRun({text:"\tPágina ",font:FONT,size:16,color:"666666"}),new TextRun({children:[PageNumber.CURRENT],font:FONT,size:16,color:"666666"}),new TextRun({text:" de ",font:FONT,size:16,color:"666666"}),new TextRun({children:[PageNumber.TOTAL_PAGES],font:FONT,size:16,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:9638}]})]})}
   };
 }
 function hdrftrLand(left,classif){
   const x=hdrftr(left,classif);
-  const mk=(pos)=>({headers:{default:new Header({children:[new Paragraph({children:[new TextRun({text:"N1 IT | Grupo Stefanini",bold:true,font:FONT,size:17,color:NAVY}),new TextRun({text:"\t"+left,font:FONT,size:17,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:pos}],border:{bottom:{style:BorderStyle.SINGLE,size:6,color:BLUE,space:3}}})]})},footers:{default:new Footer({children:[new Paragraph({children:[new TextRun({text:classif,font:FONT,size:16,color:"666666"}),new TextRun({children:["\tPágina ",PageNumber.CURRENT," de ",PageNumber.TOTAL_PAGES],font:FONT,size:16,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:pos}]})]})}});
+  const mk=(pos)=>({headers:{first:new Header({children:[new Paragraph({children:[]})]}),default:new Header({children:[new Paragraph({children:[new TextRun({text:"N1 IT | Grupo Stefanini",bold:true,font:FONT,size:17,color:NAVY}),new TextRun({text:"\t"+left,font:FONT,size:17,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:pos}],border:{bottom:{style:BorderStyle.SINGLE,size:6,color:BLUE,space:3}}})]})},footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({children:[new TextRun({text:classif,font:FONT,size:16,color:"666666"}),new TextRun({text:"\tPágina ",font:FONT,size:16,color:"666666"}),new TextRun({children:[PageNumber.CURRENT],font:FONT,size:16,color:"666666"}),new TextRun({text:" de ",font:FONT,size:16,color:"666666"}),new TextRun({children:[PageNumber.TOTAL_PAGES],font:FONT,size:16,color:"666666"})],tabStops:[{type:TabStopType.RIGHT,position:pos}]})]})}});
   return mk(15138);
 }
 const styles={default:{document:{run:{font:FONT,size:21}}},paragraphStyles:[
@@ -69,10 +69,11 @@ const numbering={config:[
 function cover(title,subtitle,rows,classif){
   const big=(t,s,c,b=true,a=120)=>new Paragraph({children:[new TextRun({text:t,font:FONT,size:s,bold:b,color:c})],spacing:{after:a}});
   return [
-   new Paragraph({children:[],spacing:{before:1400}}),
-   big("N1 IT | Grupo Stefanini",26,BLUE,true,600),
+   new Paragraph({children:[],spacing:{before:900}}),
+   big("N1 IT | Grupo Stefanini",30,BLUE,true,300),
+   big("Grupo Stefanini · Documento corporativo",18,"666666",false,500),
    new Paragraph({children:[],border:{top:{style:BorderStyle.SINGLE,size:24,color:BLUE,space:1}},spacing:{after:300}}),
-   big(title,52,NAVY,true,200), big(subtitle,28,"444444",false,700),
+   big(title,56,NAVY,true,240), big(subtitle,28,"444444",false,900),
    tbl(null,rows,[2600,7038],{firstColBold:true,size:20}),
    gap(500), big(classif,18,"666666",false,0)];
 }
